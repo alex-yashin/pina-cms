@@ -46,7 +46,7 @@ class ResourceGateway extends TableDataGateway
         $schema->add('meta_description', __('Мета description'), StringType::class);
 
         //задается лишь единожды на стороне и не может быть изменено
-        $schema->add('type_id', __('Тип'), ResourceTypeType::class)->setStatic();
+        $schema->add('type', __('Тип'), ResourceTypeType::class)->setStatic();
 
         //будет генерироваться на стороне
         $schema->add('enabled', __('Активен'), EnabledType::class)->setStatic();
@@ -76,7 +76,6 @@ class ResourceGateway extends TableDataGateway
     {
         return [
             (new ForeignKey('parent_id'))->references(ResourceGateway::instance()->getTable(), 'id'),
-            (new ForeignKey('type_id'))->references(ResourceTypeGateway::instance()->getTable(), 'id'),
         ];
     }
 
@@ -103,7 +102,7 @@ class ResourceGateway extends TableDataGateway
 
         return $this->innerJoin(
             SQL::subquery($cloned)->alias('title')->on('id', 'id')
-            ->select('title')
+                ->select('title')
         );
     }
 }

@@ -4,10 +4,9 @@
 namespace PinaCMS\Types;
 
 
+use Pina\App;
 use PinaCMS\ResourceTypeFactory;
-use PinaCMS\SQL\ResourceTypeGateway;
 use Exception;
-use Pina\TableDataGateway;
 use Pina\Types\DirectoryType;
 use Pina\Types\ValidateException;
 
@@ -21,13 +20,16 @@ class ResourceTypeType extends DirectoryType
      */
     public function getVariants()
     {
+        /** @var ResourceTypeFactory $factory */
+        $factory = App::load(ResourceTypeFactory::class);
+        $types = $factory->get();
+
         $rs = [];
-        $types = $this->makeQuery()->get();
         foreach ($types as $type) {
             try {
                 $rs[] = [
-                    'id' => $type['id'],
-                    'title' => ResourceTypeFactory::makeClass($type['class'])->getTitle(),
+                    'id' => $type,
+                    'title' => $factory->makeType($type)->getTitle(),
                 ];
             } catch (Exception $e) {
             }
@@ -45,11 +47,9 @@ class ResourceTypeType extends DirectoryType
         if (empty($value)) {
             return '';
         }
-        $class = $this->makeQuery()->whereId($value)->value('class');
-        if (empty($class)) {
-            return '';
-        }
-        return ResourceTypeFactory::makeClass($class)->getTitle();
+        /** @var ResourceTypeFactory $factory */
+        $factory = App::load(ResourceTypeFactory::class);
+        return $factory->makeType($value)->getTitle();
     }
 
     /**
@@ -60,7 +60,11 @@ class ResourceTypeType extends DirectoryType
      */
     public function normalize($value, $isMandatory)
     {
-        if (!$this->makeQuery()->whereId($value)->exists()) {
+        /** @var ResourceTypeFactory $factory */
+        $factory = App::load(ResourceTypeFactory::class);
+        $types = $factory->get();
+
+        if (!in_array($value, $types)) {
             throw new ValidateException(__("Выберите значение"));
         }
 
@@ -69,16 +73,11 @@ class ResourceTypeType extends DirectoryType
 
     public function getSize()
     {
-        return 11;
+        return 12;
     }
 
     public function getSQLType()
     {
-        return "int(" . $this->getSize() . ")";
-    }
-
-    protected function makeQuery(): TableDataGateway
-    {
-        return ResourceTypeGateway::instance();
+        return "varchar(" . $this->getSize() . ")";
     }
 }

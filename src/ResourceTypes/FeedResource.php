@@ -38,7 +38,11 @@ class FeedResource implements ResourceTypeInterface
             /** @var FeedItem $item */
             $item = App::make(FeedItem::class);
             $item->setTitle($r['title']);
-            $item->append(ResourceTypeFactory::make($r['id'])->draw($r['id']));
+
+            /** @var ResourceTypeFactory $factory */
+            $factory = App::load(ResourceTypeFactory::class);
+
+            $item->append($factory->make($r['id'])->draw($r['id']));
             $container->append($item);
         }
         return $container;

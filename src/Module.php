@@ -6,6 +6,8 @@ namespace PinaCMS;
 use PinaCMS\Endpoints\ArticleEndpoint;
 use PinaCMS\Endpoints\FeedEndpoint;
 use PinaCMS\Endpoints\ResourceManagementEndpoint;
+use PinaCMS\ResourceTypes\ArticleResource;
+use PinaCMS\ResourceTypes\FeedResource;
 use PinaDashboard\Dashboard;
 use PinaMedia\Endpoints\UploadEndpoint;
 use Pina\Access;
@@ -20,6 +22,10 @@ class Module implements ModuleInterface
 
     public function __construct()
     {
+        /** @var ResourceTypeFactory $factory */
+        $factory = App::load(ResourceTypeFactory::class);
+        $factory->register('feed', FeedResource::class);
+        $factory->register('article', ArticleResource::class);
     }
 
     public function getPath()

@@ -2,7 +2,6 @@
 
 namespace PinaCMS\SQL;
 
-use PinaCMS\ResourceTypes\ArticleResource;
 use PinaCMS\Schema\ResourceSchema;
 use PinaCMS\Types\FeedType;
 use PinaCMS\Types\HTMLType;
@@ -35,9 +34,8 @@ class ArticleGateway extends TableDataGateway
 
     public function getTriggers()
     {
-        $cl = $this->db->escape(ArticleResource::class);
         return [
-            $this->makeInsertTrigger($cl, 'feed_id'),
+            $this->makeInsertTrigger('article', 'feed_id'),
             $this->makeUpdateTrigger('feed_id'),
         ];
     }

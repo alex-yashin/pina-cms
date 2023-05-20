@@ -7,7 +7,7 @@ trait ResourceTrait
 
     abstract public function getTable();
 
-    public function makeInsertTrigger($cl, $parentIdField = null)
+    public function makeInsertTrigger($type, $parentIdField = null)
     {
         $fields = $this->getResourceFields($parentIdField);
         $values = $this->getResourceValues($parentIdField);
@@ -15,9 +15,9 @@ trait ResourceTrait
             $this->getTable(),
             'before insert',
             "IF (NEW.id IS NOT NULL AND NEW.id > 0) THEN"
-            ." INSERT INTO resource (id, type_id,".implode(',', $fields).") SELECT NEW.id, id,".implode(',', $values)." FROM resource_type WHERE `class`='$cl';"
+            ." INSERT INTO resource (id, `type`,".implode(',', $fields).") SELECT NEW.id, '$type',".implode(',', $values).";"
             ." ELSE"
-            ." INSERT INTO resource (type_id,".implode(',', $fields).") SELECT id,".implode(',', $values)." FROM resource_type WHERE `class`='$cl';SET NEW.id=LAST_INSERT_ID();"
+            ." INSERT INTO resource (`type`,".implode(',', $fields).") SELECT '$type',".implode(',', $values).";SET NEW.id=LAST_INSERT_ID();"
             ." END IF;"
         ];
     }

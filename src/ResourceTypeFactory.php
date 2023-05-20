@@ -2,32 +2,49 @@
 
 namespace PinaCMS;
 
+use Pina\Container\Container;
+use Pina\Container\NotFoundException;
 use PinaCMS\SQL\ResourceGateway;
-use PinaCMS\SQL\ResourceTypeGateway;
-use Pina\InternalErrorException;
 
 class ResourceTypeFactory
 {
-    public static function make($id): ResourceTypeInterface
-    {
-        $class = ResourceTypeGateway::instance()
-            ->innerJoin(
-                ResourceGateway::instance()->on('type_id', 'id')
-                    ->onBy('id', $id)
-            )
-            ->value('class');
+    protected $container;
 
-        return static::makeClass($class);
+    public function __construct()
+    {
+        $this->container = new Container();
     }
 
-    public static function makeClass($class): ResourceTypeInterface
+    public function register($type, $class)
     {
-        if (!class_exists($class) || !is_subclass_of($class, ResourceTypeInterface::class, true)) {
-            throw new InternalErrorException();
+        $this->container->set($type, $class);
+    }
+
+    /**
+     * @param $id
+     * @return ResourceTypeInterface
+     * @throws \Exception
+     */
+    public function make($id): ResourceTypeInterface
+    {
+        $type = ResourceGateway::instance()->whereId($id)->value('type');
+        return $this->makeType($type);
+    }
+
+    public function makeType($type): ResourceTypeInterface
+    {
+        if (!$this->container->has($type)) {
+            throw new NotFoundException("Resource type $type not found");
         }
 
-        /** @var ResourceTypeInterface $inst */
-        $inst = new $class;
-        return $inst;
+        return $this->container->make($type);
+    }
+
+    /**
+     * @return array
+     */
+    public function get(): array
+    {
+        return $this->container->getKeys();
     }
 }

@@ -2,6 +2,7 @@
 
 namespace PinaCMS\ResourceTypes;
 
+use Pina\Request;
 use PinaCMS\Controls\Page;
 use PinaDashboard\Dashboard;
 use PinaCMS\Endpoints\ArticleEndpoint;
@@ -35,7 +36,7 @@ class ArticleResource implements ResourceTypeInterface
             ->innerJoin(
                 ResourceGateway::instance()->on('id', 'id')
                     ->onBy('enabled', 'Y')
-                ->select('title')
+                    ->select('title')
             )
             ->findOrFail($id);
 
@@ -43,6 +44,9 @@ class ArticleResource implements ResourceTypeInterface
         $view = App::make(Page::class);
         $view->setTitle($article['title']);
         $view->append((new RawHtml())->setText($article['text']));
+
+        Request::setPlace('page_header', $article['title']);
+
         return $view;
     }
 
