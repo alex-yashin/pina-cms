@@ -9,15 +9,21 @@ trait ResourceTrait
 
     public function makeInsertTrigger($type, $parentIdField = null)
     {
-        $fields = $this->getResourceFields($parentIdField);
-        $values = $this->getResourceValues($parentIdField);
+        $fields = $this->getResourceFields();
+        $setCondition = [];
+        foreach ($fields as $field) {
+            $setCondition[] = "$field=NEW.$field";
+        }
+        if ($parentIdField) {
+            $setCondition[] = "parent_id=NEW.$parentIdField";
+        }
         return [
             $this->getTable(),
             'before insert',
             "IF (NEW.id IS NOT NULL AND NEW.id > 0) THEN"
-            ." INSERT INTO resource (id, `type`,".implode(',', $fields).") SELECT NEW.id, '$type',".implode(',', $values).";"
+            ." INSERT INTO resource SET id=NEW.id, `type`='$type',".implode(',', $setCondition).";"
             ." ELSE"
-            ." INSERT INTO resource (`type`,".implode(',', $fields).") SELECT '$type',".implode(',', $values).";SET NEW.id=LAST_INSERT_ID();"
+            ." INSERT INTO resource SET `type`='$type',".implode(',', $setCondition).";SET NEW.id=LAST_INSERT_ID();"
             ." END IF;"
         ];
     }
@@ -48,20 +54,11 @@ trait ResourceTrait
 
     private function getResourceFields($parentIdField = null)
     {
-        $fields = ['title', 'slug', 'enabled'];
+        $fields = ['media_id', 'title', 'slug', 'enabled'];
         if ($parentIdField) {
             $fields[] = 'parent_id';
         }
         return $fields;
-    }
-
-    private function getResourceValues($parentIdField = null)
-    {
-        $values = ['NEW.title', 'NEW.slug', 'NEW.enabled'];
-        if ($parentIdField) {
-            $values[] = 'NEW.' . $parentIdField;
-        }
-        return $values;
     }
 
 }

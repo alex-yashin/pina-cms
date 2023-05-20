@@ -23,7 +23,7 @@ class FeedRecordRow extends LinkedListItem
         $title = $data['title'];
         unset($data['title']);
 
-        $text = substr(strip_tags($data['text']), 0, 500);
+        $text = mb_substr(strip_tags($data['text']), 0, 500);
         unset($data['text']);
 
         $enabled = $this->record->getData()['enabled'] ?? 'Y';

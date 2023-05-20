@@ -15,6 +15,8 @@ use Pina\Types\EnabledType;
 use Pina\Types\IntegerType;
 use Pina\Types\StringType;
 
+use PinaMedia\Types\MediaType;
+
 use function Pina\__;
 
 class ResourceGateway extends TableDataGateway
@@ -33,6 +35,8 @@ class ResourceGateway extends TableDataGateway
         //будет генерироваться на стороне
         $schema->add('parent_id', __('Родительский ресурс'), ResourceType::class)->setNullable()->setStatic();
         $schema->addKey('parent_id');
+
+        $schema->add('media_id', __("Изображение"), MediaType::class);
 
         $schema->add('slug', __('Slug'), SlugType::class)->setStatic();
         $schema->addUniqueKey(['slug']);
@@ -91,7 +95,10 @@ class ResourceGateway extends TableDataGateway
         $cloned = clone $this;
         $cloned->alias('r')
             ->select('id')
-            ->calculate("concat(IFNULL(concat(group_concat(rp.title ORDER BY rt.length DESC SEPARATOR '/'), '/'),''), r.title)", 'title')
+            ->calculate(
+                "concat(IFNULL(concat(group_concat(rp.title ORDER BY rt.length DESC SEPARATOR '/'), '/'),''), r.title)",
+                'title'
+            )
             ->leftJoin(
                 ResourceTreeGateway::instance()->alias('rt')->on('id', 'id')
                     ->leftJoin(
