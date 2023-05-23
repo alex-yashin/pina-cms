@@ -17,13 +17,13 @@ class ResourceSchema extends Schema
 
     public function __construct()
     {
-        $this->add('id', 'ID', IntegerType::class)->setStatic();
+        $this->add('id', 'ID', IntegerType::class)->setStatic()->setWidth(4);
         $this->setPrimaryKey(['id']);
+        $this->add('slug', __("Slug"), SlugType::class)->setWidth(4);
+        $this->add('enabled', __('Активен'), EnabledType::class)->setWidth(4);
 
         $this->add('media_id', __("Изображение"), MediaType::class);
         $this->add('title', __("Наименование"), StringType::class);
-        $this->add('slug', __("Slug"), SlugType::class);
-        $this->add('enabled', __('Активен'), EnabledType::class);
     }
 
 }
