@@ -6,6 +6,7 @@ namespace PinaCMS;
 use PinaCMS\Endpoints\ArticleEndpoint;
 use PinaCMS\Endpoints\FeedEndpoint;
 use PinaCMS\Endpoints\ResourceManagementEndpoint;
+use PinaCMS\Endpoints\SitemapEndpoint;
 use PinaCMS\ResourceTypes\ArticleResource;
 use PinaCMS\ResourceTypes\FeedResource;
 use PinaDashboard\Dashboard;
@@ -47,6 +48,9 @@ class Module implements ModuleInterface
     {
         App::router()->register('rs', ResourceEndpoint::class);
         Access::permit('rs', 'public');
+
+        App::router()->register('sitemap', SitemapEndpoint::class);
+        Access::permit('sitemap', 'public');
 
         /** @var Dashboard $dashboard */
         $dashboard = App::load(Dashboard::class);

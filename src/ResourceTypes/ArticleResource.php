@@ -4,6 +4,7 @@ namespace PinaCMS\ResourceTypes;
 
 use Pina\Request;
 use PinaCMS\Controls\Page;
+use PinaCMS\SQL\ResourceUrlGateway;
 use PinaDashboard\Dashboard;
 use PinaCMS\Endpoints\ArticleEndpoint;
 use PinaCMS\ResourceTypeInterface;
@@ -40,11 +41,11 @@ class ArticleResource implements ResourceTypeInterface
         $resources = App::container()->get(ResourceManagerInterface::class);
         $resources->append((new Style())->setSrc('static/default/css/editor-content.css'));
         $article = ArticleGateway::instance()
-            ->whereBy('enabled', 'Y')
             ->select('text')
             ->select('title')
             ->innerJoin(
                 ResourceGateway::instance()->on('id', 'id')
+                    ->onBy('enabled', 'Y')
                     ->select('meta_title')
                     ->select('meta_description')
                     ->select('meta_keywords')
@@ -54,6 +55,10 @@ class ArticleResource implements ResourceTypeInterface
                     ->on('id', 'media_id')
                     ->selectAs('path', 'media_path')
                     ->selectAs('storage', 'media_storage')
+            )
+            ->innerJoin(
+                ResourceUrlGateway::instance()->on('id', 'id')
+                    ->select('url')
             )
             ->findOrFail($id);
 
@@ -66,6 +71,8 @@ class ArticleResource implements ResourceTypeInterface
         Request::setPlace('meta_title', !empty($article['meta_title']) ? $article['meta_title'] : $article['title']);
         Request::setPlace('meta_description', $article['meta_description']);
         Request::setPlace('meta_keywords', $article['meta_keywords']);
+
+        Request::setPlace('canonical', $article['url']);
 
         Request::setPlace('og_type', 'article');
         Request::setPlace('og_title', !empty($article['meta_title']) ? $article['meta_title'] : $article['title']);

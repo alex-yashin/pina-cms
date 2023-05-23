@@ -12,7 +12,7 @@ class Dispatcher
 
     public function dispatch($resource)
     {
-        $resource = urldecode($resource);
+        $resource = trim(urldecode($resource), '/');
         if (empty($resource)) {
             return null;
         }
