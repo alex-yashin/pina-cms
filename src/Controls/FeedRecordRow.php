@@ -12,6 +12,13 @@ class FeedRecordRow extends LinkedListItem
 {
     use RecordTrait;
 
+    protected $ignore = [];
+
+    public function setIgnore(array $fields)
+    {
+        $this->ignore = $fields;
+    }
+
     /**
      * @return string
      * @throws \Exception
@@ -41,8 +48,9 @@ class FeedRecordRow extends LinkedListItem
         $content = [];
         $content[] = Html::tag('header', $title);
 
-        $second = Html::tag('i', implode(' • ', array_filter($data)));
-        if ($text) {
+        $tags = implode(' • ', array_filter(array_diff_key($data, array_flip($this->ignore))));
+        $second = $tags ? Html::tag('i', $tags) : '';
+        if ($text && mb_strlen($text) > 10) {
             $second .= ' — ' . $text;
         }
         $content[] = Html::nest('.short',  $second);
