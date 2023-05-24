@@ -112,7 +112,7 @@ class FeedResource implements ResourceTypeInterface
             $row = App::make(FeedRecordRow::class);
             $row->load($record);
             $row->setLink($record->getData()['url']);
-            $row->setIgnore(['url']);
+            $row->setIgnore(['url', 'media_path', 'media_storage', 'media_id']);
 
             $nav->append($row);
         }
