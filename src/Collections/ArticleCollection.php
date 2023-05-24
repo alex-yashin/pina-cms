@@ -9,7 +9,7 @@ class ArticleCollection extends ResourceBasedCollection
 {
     function makeQuery()
     {
-        return ArticleGateway::instance();
+        return ArticleGateway::instance()->orderBy('created_at', 'desc');
     }
 
     public function getListSchema(): Schema
