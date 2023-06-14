@@ -15,8 +15,6 @@ use Pina\Controls\Control;
 use Pina\Controls\RawHtml;
 use Pina\Data\Schema;
 use Pina\Http\Location;
-use Pina\ResourceManagerInterface;
-use Pina\StaticResource\Style;
 
 use PinaMedia\Media;
 use PinaMedia\MediaGateway;
@@ -38,8 +36,6 @@ class ArticleResource implements ResourceTypeInterface
      */
     public function draw(int $id): Control
     {
-        $resources = App::container()->get(ResourceManagerInterface::class);
-        $resources->append((new Style())->setSrc('static/default/css/editor-content.css'));
         $article = ArticleGateway::instance()
             ->select('text')
             ->select('title')
