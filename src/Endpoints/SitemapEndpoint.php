@@ -27,13 +27,9 @@ class SitemapEndpoint extends Endpoint
         echo '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
         echo '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">';
 
-        echo '<url>';
-        echo '<loc>' . App::link('/') . '</loc>';
-        echo '</url>';
+        echo '<url><loc>' . App::link('/') . '</loc></url>';
         foreach ($resources as $resource) {
-            echo '<url>';
-            echo '<loc>' . App::link($resource['url']) . '</loc>';
-            echo '</url>';
+            echo '<url><loc>' . App::link($resource['url']) . '</loc></url>';
         }
 
         echo '</urlset> ';

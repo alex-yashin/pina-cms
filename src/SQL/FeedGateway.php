@@ -2,6 +2,7 @@
 
 namespace PinaCMS\SQL;
 
+use Exception;
 use PinaCMS\Schema\ResourceSchema;
 use Pina\Data\Schema;
 use Pina\TableDataGateway;
@@ -14,12 +15,11 @@ class FeedGateway extends TableDataGateway
 
     /**
      * @return Schema
-     * @throws \Exception
+     * @throws Exception
      */
     public function getSchema()
     {
-        $schema = new ResourceSchema();
-        return $schema;
+        return new ResourceSchema();
     }
 
     public function getTriggers()

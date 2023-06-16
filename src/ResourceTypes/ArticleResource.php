@@ -2,6 +2,7 @@
 
 namespace PinaCMS\ResourceTypes;
 
+use Exception;
 use Pina\Request;
 use PinaCMS\Controls\Page;
 use PinaCMS\SQL\ResourceUrlGateway;
@@ -32,7 +33,7 @@ class ArticleResource implements ResourceTypeInterface
     /**
      * @param int $id
      * @return Control
-     * @throws \Exception
+     * @throws Exception
      */
     public function draw(int $id): Control
     {
@@ -84,7 +85,7 @@ class ArticleResource implements ResourceTypeInterface
 
     /**
      * @return Schema
-     * @throws \Exception
+     * @throws Exception
      */
     public function getSchema(): Schema
     {

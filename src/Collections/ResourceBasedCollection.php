@@ -12,7 +12,7 @@ use function Pina\__;
 abstract class ResourceBasedCollection extends DataCollection
 {
 
-    protected function normalize(array $data, Schema $schema, ?string $id = null): array
+    protected function normalize(array $data, Schema $schema, $context = [], ?string $id = null): array
     {
         $slugExists = ResourceGateway::instance()
             ->whereNotId($id)
@@ -25,11 +25,11 @@ abstract class ResourceBasedCollection extends DataCollection
             throw $e;
         }
 
-        return parent::normalize($data, $schema, $id);
+        return parent::normalize($data, $schema, $context, $id);
 
     }
 
-    protected function resolveId(array $normalized, Schema $schema): string
+    protected function resolveId(array $normalized, Schema $schema, array $context = []): string
     {
         return ResourceGateway::instance()->whereBy('slug', $normalized['slug'])->value('id') ?? '';
     }

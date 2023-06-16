@@ -3,6 +3,7 @@
 
 namespace PinaCMS\Controls;
 
+use Exception;
 use PinaMedia\Media;
 use Pina\Controls\LinkedListItem;
 use Pina\Controls\RecordTrait;
@@ -21,7 +22,7 @@ class FeedRecordRow extends LinkedListItem
 
     /**
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     protected function drawInner()
     {

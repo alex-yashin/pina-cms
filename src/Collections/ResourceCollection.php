@@ -20,7 +20,7 @@ class ResourceCollection extends DataCollection
         return ResourceGateway::instance();
     }
 
-    public function getCreationSchema(): Schema
+    public function getCreationSchema($context = []): Schema
     {
         return new Schema();
     }
@@ -39,7 +39,7 @@ class ResourceCollection extends DataCollection
         return parent::getListSchema()->fieldset(['parent_id', 'title', 'slug', 'type_id', 'enabled'])->makeSchema();
     }
 
-    protected function normalize(array $data, Schema $schema, ?string $id = null): array
+    protected function normalize(array $data, Schema $schema, $context = [], ?string $id = null): array
     {
         if ($id && isset($data['parent_id']) && $data['parent_id'] == $id) {
             $ex = new BadRequestException();
@@ -59,7 +59,7 @@ class ResourceCollection extends DataCollection
             }
         }
 
-        return parent::normalize($data, $schema, $id);
+        return parent::normalize($data, $schema, $context, $id);
     }
 
 

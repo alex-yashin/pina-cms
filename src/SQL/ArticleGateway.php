@@ -2,6 +2,7 @@
 
 namespace PinaCMS\SQL;
 
+use Exception;
 use PinaCMS\Schema\ResourceSchema;
 use PinaCMS\Types\FeedType;
 use PinaCMS\Types\HTMLType;
@@ -21,7 +22,7 @@ class ArticleGateway extends TableDataGateway
 
     /**
      * @return Schema
-     * @throws \Exception
+     * @throws Exception
      */
     public function getSchema()
     {

@@ -3,7 +3,9 @@
 
 namespace PinaCMS\Endpoints;
 
+use Exception;
 use Pina\App;
+use Pina\Controls\Control;
 use PinaCMS\ResourceTypeFactory;
 use Pina\Http\Endpoint;
 
@@ -11,8 +13,8 @@ class ResourceEndpoint extends Endpoint
 {
     /**
      * @param $id
-     * @return \Pina\Controls\Control
-     * @throws \Exception
+     * @return Control
+     * @throws Exception
      */
     public function show($id)
     {

@@ -2,6 +2,7 @@
 
 namespace PinaCMS\Controls;
 
+use Exception;
 use Pina\App;
 use Pina\Controls\Control;
 use Pina\Html;
@@ -20,7 +21,7 @@ class Page extends Control
 
     /**
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     protected function draw()
     {

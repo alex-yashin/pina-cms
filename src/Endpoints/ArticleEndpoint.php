@@ -5,7 +5,6 @@ namespace PinaCMS\Endpoints;
 use PinaCMS\Collections\ArticleCollection;
 use PinaCMS\Controls\FeedTableView;
 use Pina\App;
-use Pina\Controls\Control;
 use Pina\Data\DataTable;
 use Pina\Http\DelegatedCollectionEndpoint;
 use Pina\Http\Request;
@@ -19,9 +18,6 @@ class ArticleEndpoint extends DelegatedCollectionEndpoint
         $this->collection = App::make(ArticleCollection::class);
     }
 
-    /**
-     * @return Control
-     */
     protected function makeCollectionView(DataTable $data)
     {
         if ($this->sortable) {

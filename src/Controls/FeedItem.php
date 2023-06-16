@@ -4,6 +4,7 @@
 namespace PinaCMS\Controls;
 
 
+use Exception;
 use Pina\Controls\Control;
 use Pina\Html;
 
@@ -19,7 +20,7 @@ class FeedItem extends Control
 
     /**
      * @return string
-     * @throws \Exception
+     * @throws Exception
      */
     protected function draw()
     {

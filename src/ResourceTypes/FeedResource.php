@@ -4,6 +4,7 @@
 namespace PinaCMS\ResourceTypes;
 
 
+use Exception;
 use Pina\Controls\Nav;
 use Pina\Data\DataTable;
 use Pina\Request;
@@ -37,7 +38,7 @@ class FeedResource implements ResourceTypeInterface
     /**
      * @param int $id
      * @return Control
-     * @throws \Exception
+     * @throws Exception
      */
     public function draw(int $id): Control
     {

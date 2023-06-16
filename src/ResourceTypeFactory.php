@@ -2,12 +2,16 @@
 
 namespace PinaCMS;
 
+use Exception;
 use Pina\Container\Container;
 use Pina\Container\NotFoundException;
 use PinaCMS\SQL\ResourceGateway;
 
 class ResourceTypeFactory
 {
+    /**
+     * @var Container
+     */
     protected $container;
 
     public function __construct()
@@ -23,7 +27,7 @@ class ResourceTypeFactory
     /**
      * @param $id
      * @return ResourceTypeInterface
-     * @throws \Exception
+     * @throws Exception
      */
     public function make($id): ResourceTypeInterface
     {

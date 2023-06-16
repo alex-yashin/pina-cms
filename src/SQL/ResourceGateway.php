@@ -4,6 +4,7 @@
 namespace PinaCMS\SQL;
 
 
+use Exception;
 use PinaCMS\Types\ResourceType;
 use PinaCMS\Types\ResourceTypeType;
 use PinaCMS\Types\SlugType;
@@ -26,7 +27,7 @@ class ResourceGateway extends TableDataGateway
 
     /**
      * @return Schema
-     * @throws \Exception
+     * @throws Exception
      */
     public function getSchema()
     {
