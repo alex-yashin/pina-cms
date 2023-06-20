@@ -8,7 +8,6 @@ use Exception;
 use Pina\Controls\Nav;
 use Pina\Data\DataTable;
 use Pina\Request;
-use PinaCMS\Controls\Feed;
 use PinaCMS\Controls\FeedRecordRow;
 use PinaCMS\Controls\Page;
 use PinaCMS\SQL\ArticleGateway;
@@ -64,10 +63,6 @@ class FeedResource implements ResourceTypeInterface
             )
             ->find($id);
 
-        /** @var Page $view */
-        $view = App::make(Page::class);
-        $view->setTitle($feed['title']);
-
         Request::setPlace('page_header', $feed['title']);
         Request::setPlace('meta_title', !empty($feed['meta_title']) ? $feed['meta_title'] : $feed['title']);
         Request::setPlace('meta_description', $feed['meta_description']);
@@ -104,7 +99,9 @@ class FeedResource implements ResourceTypeInterface
 
         $data = new DataTable($query->get(), $query->getQuerySchema());
 
-        $container = App::make(Feed::class);
+        /** @var Page $view */
+        $container = App::make(Page::class);
+        $container->setTitle($feed['title']);
 
         $nav = App::make(Nav::class);
         $nav->addClass('feed');
