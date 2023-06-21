@@ -5,12 +5,10 @@ namespace PinaCMS\ResourceTypes;
 use Exception;
 use Pina\Request;
 use PinaCMS\Controls\Page;
-use PinaCMS\SQL\ResourceUrlGateway;
 use PinaDashboard\Dashboard;
 use PinaCMS\Endpoints\ArticleEndpoint;
 use PinaCMS\ResourceTypeInterface;
 use PinaCMS\SQL\ArticleGateway;
-use PinaCMS\SQL\ResourceGateway;
 use Pina\App;
 use Pina\Controls\Control;
 use Pina\Controls\RawHtml;
@@ -18,7 +16,6 @@ use Pina\Data\Schema;
 use Pina\Http\Location;
 
 use PinaMedia\Media;
-use PinaMedia\MediaGateway;
 
 use function Pina\__;
 
@@ -38,25 +35,7 @@ class ArticleResource implements ResourceTypeInterface
     public function draw(int $id): Control
     {
         $article = ArticleGateway::instance()
-            ->select('text')
-            ->select('title')
-            ->innerJoin(
-                ResourceGateway::instance()->on('id', 'id')
-                    ->onBy('enabled', 'Y')
-                    ->select('meta_title')
-                    ->select('meta_description')
-                    ->select('meta_keywords')
-            )
-            ->leftJoin(
-                MediaGateway::instance()
-                    ->on('id', 'media_id')
-                    ->selectAs('path', 'media_path')
-                    ->selectAs('storage', 'media_storage')
-            )
-            ->innerJoin(
-                ResourceUrlGateway::instance()->on('id', 'id')
-                    ->select('url')
-            )
+            ->selectArticleFields()
             ->findOrFail($id);
 
         /** @var Page $view */
