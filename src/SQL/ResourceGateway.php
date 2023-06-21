@@ -16,6 +16,7 @@ use Pina\Types\EnabledType;
 use Pina\Types\IntegerType;
 use Pina\Types\StringType;
 
+use PinaMedia\MediaGateway;
 use PinaMedia\Types\MediaType;
 
 use function Pina\__;
@@ -112,5 +113,28 @@ class ResourceGateway extends TableDataGateway
             SQL::subquery($cloned)->alias('title')->on('id', 'id')
                 ->select('title')
         );
+    }
+
+    public function selectResourceFields()
+    {
+        return $this
+            ->select('title')
+            ->innerJoin(
+                ResourceGateway::instance()->on('id', 'id')
+                    ->onBy('enabled', 'Y')
+                    ->select('meta_title')
+                    ->select('meta_description')
+                    ->select('meta_keywords')
+            )
+            ->leftJoin(
+                MediaGateway::instance()
+                    ->on('id', 'media_id')
+                    ->selectAs('path', 'media_path')
+                    ->selectAs('storage', 'media_storage')
+            )
+            ->innerJoin(
+                ResourceUrlGateway::instance()->on('id', 'id')
+                    ->select('url')
+            );
     }
 }

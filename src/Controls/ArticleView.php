@@ -1,36 +1,43 @@
 <?php
 
+
 namespace PinaCMS\Controls;
 
-use Exception;
+
 use Pina\App;
 use Pina\Controls\Control;
 use Pina\Html;
 use Pina\ResourceManagerInterface;
 use Pina\StaticResource\Script;
+use PinaCMS\Model\Article;
 
-class Page extends Control
+class ArticleView extends Control
 {
-    protected $title = '';
+    /** @var Article */
+    protected $article;
 
-    public function setTitle($title)
+    public function load(Article $article)
     {
-        $this->title = $title;
-        return $this;
+        $this->article = $article;
     }
 
     /**
      * @return string
-     * @throws Exception
+     * @throws \Exception
      */
     protected function draw()
     {
         $this->resources()->append((new Script())->setSrc('article.js'));
         return Html::zz(
             'main.container section(header(h1%)+.article%)',
-            $this->title,
+            $this->article->getTitle(),
             $this->drawInnerBefore() . $this->drawInner() . $this->drawInnerAfter()
         );
+    }
+
+    protected function drawInner()
+    {
+        return $this->article->getText();
     }
 
     /**

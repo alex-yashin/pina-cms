@@ -2,22 +2,49 @@
 
 namespace PinaCMS\Model;
 
-use Pina\Model\LinkedItem;
+use PinaMedia\Model\Media;
 
-class Article extends LinkedItem
+class Article extends Resource
 {
 
     protected $text = '';
 
-    public function __construct($title, $text, $link)
-    {
+    public function __construct(
+        string $title,
+        string $text,
+        string $link,
+        Media $media,
+        string $metaTitle = '',
+        string $metaDescription = '',
+        string $metaKeywods = ''
+    ) {
+        parent::__construct($title, $link, $media, $metaTitle, $metaDescription, $metaKeywods);
+
         $this->text = $text;
-        parent::__construct($title, $link);
     }
 
     public function getText()
     {
         return $this->text;
+    }
+
+    public static function fromArray($line): Article
+    {
+        $media = new Media($line['media_storage'] ?? '', $line['media_path'] ?? '');
+        return new Article(
+            $line['title'],
+            $line['text'],
+            $line['url'],
+            $media,
+            $line['meta_title'],
+            $line['meta_description'],
+            $line['meta_keywords']
+        );
+    }
+
+    public function getLabels(): array
+    {
+        return [];
     }
 
 }

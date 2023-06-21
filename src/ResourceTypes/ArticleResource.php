@@ -4,18 +4,15 @@ namespace PinaCMS\ResourceTypes;
 
 use Exception;
 use Pina\Request;
-use PinaCMS\Controls\Page;
+use PinaCMS\Controls\ArticleView;
 use PinaDashboard\Dashboard;
 use PinaCMS\Endpoints\ArticleEndpoint;
 use PinaCMS\ResourceTypeInterface;
 use PinaCMS\SQL\ArticleGateway;
 use Pina\App;
 use Pina\Controls\Control;
-use Pina\Controls\RawHtml;
 use Pina\Data\Schema;
 use Pina\Http\Location;
-
-use PinaMedia\Media;
 
 use function Pina\__;
 
@@ -36,28 +33,23 @@ class ArticleResource implements ResourceTypeInterface
     {
         $article = ArticleGateway::instance()
             ->selectArticleFields()
-            ->findOrFail($id);
+            ->findArticleOrFail($id);
 
-        /** @var Page $view */
-        $view = App::make(Page::class);
-        $view->setTitle($article['title']);
-        $view->append((new RawHtml())->setText($article['text']));
+        /** @var ArticleView $view */
+        $view = App::make(ArticleView::class);
+        $view->load($article);
 
-        Request::setPlace('page_header', $article['title']);
-        Request::setPlace('meta_title', !empty($article['meta_title']) ? $article['meta_title'] : $article['title']);
-        Request::setPlace('meta_description', $article['meta_description']);
-        Request::setPlace('meta_keywords', $article['meta_keywords']);
+        Request::setPlace('page_header', $article->getTitle());
+        Request::setPlace('meta_title', $article->getMetaTitle());
+        Request::setPlace('meta_description', $article->getMetaDescription());
+        Request::setPlace('meta_keywords', $article->getMetaKeywords());
 
-        Request::setPlace('canonical', $article['url']);
+        Request::setPlace('canonical', $article->getLink());
 
         Request::setPlace('og_type', 'article');
-        Request::setPlace('og_title', !empty($article['meta_title']) ? $article['meta_title'] : $article['title']);
-        Request::setPlace('og_description', $article['meta_description']);
-        if (!empty($article['media_storage']) && !empty($article['media_path'])) {
-            Request::setPlace('og_image', Media::getUrl($article['media_storage'], $article['media_path']));
-        } else {
-            Request::setPlace('og_image', '');
-        }
+        Request::setPlace('og_title', $article->getMetaTitle());
+        Request::setPlace('og_description', $article->getMetaDescription());
+        Request::setPlace('og_image', $article->getMedia()->getUrl());
 
         return $view;
     }

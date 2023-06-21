@@ -54,13 +54,13 @@ class ArticleGateway extends TableDataGateway
     public function firstArticleOrFail(): Article
     {
         $line = $this->selectArticleFields()->firstOrFail();
-        return new Article($line['title'], $line['text'], $line['url']);
+        return Article::fromArray($line);
     }
 
     public function findArticleOrFail(string $id): Article
     {
         $line = $this->selectArticleFields()->findOrFail($id);
-        return new Article($line['title'], $line['text'], $line['url']);
+        return Article::fromArray($line);
     }
 
     /**
@@ -72,7 +72,7 @@ class ArticleGateway extends TableDataGateway
 
         $r = [];
         foreach ($data as $line) {
-            $r[] = new Article($line['title'], $line['text'], $line['url']);
+            $r[] = Article::fromArray($line);
         }
         return $r;
     }
