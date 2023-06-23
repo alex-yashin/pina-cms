@@ -3,6 +3,7 @@
 namespace PinaCMS\SQL;
 
 use Exception;
+use Pina\Types\TimestampType;
 use PinaCMS\Model\Article;
 use PinaCMS\Schema\ResourceSchema;
 use PinaCMS\Types\FeedType;
@@ -32,6 +33,7 @@ class ArticleGateway extends TableDataGateway
         $schema = new ResourceSchema();
         $schema->add('feed_id', __("Лента"), FeedType::class)->setNullable();
         $schema->add('text', __("Текст"), HTMLType::class);
+        $schema->add('published_at', __("Опубликовать"), TimestampType::class);
         $schema->addCreatedAt();
         return $schema;
     }
@@ -97,6 +99,20 @@ class ArticleGateway extends TableDataGateway
             ->innerJoin(
                 ResourceUrlGateway::instance()->on('id', 'id')
                     ->select('url')
+            )
+            ->leftJoin(
+                FeedGateway::instance()->on('id', 'feed_id')
+                    ->selectAs('title', 'feed_title')
+                    ->leftJoin(
+                        ResourceUrlGateway::instance()->alias('feed_url')->on('id', 'id')
+                            ->selectAs('url', 'feed_url')
+                    )
+                    ->leftJoin(
+                        MediaGateway::instance()->alias('feed_media')
+                            ->on('id', 'media_id')
+                            ->selectAs('path', 'feed_media_path')
+                            ->selectAs('storage', 'feed_media_storage')
+                    )
             );
     }
 
