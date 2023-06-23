@@ -34,7 +34,7 @@ class Article extends Resource
         return new Article(
             $line['title'],
             $line['text'],
-            $line['url'],
+            '/' . $line['url'],
             $media,
             $line['meta_title'],
             $line['meta_description'],

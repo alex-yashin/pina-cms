@@ -14,7 +14,7 @@ class Feed extends Resource
         $media = new Media($line['media_storage'] ?? '', $line['media_path'] ?? '');
         return new Feed(
             $line['title'],
-            $line['url'],
+            '/' . $line['url'],
             $media,
             $line['meta_title'],
             $line['meta_description'],
