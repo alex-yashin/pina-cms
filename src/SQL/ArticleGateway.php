@@ -83,6 +83,8 @@ class ArticleGateway extends TableDataGateway
     {
         return $this->select('text')
             ->select('title')
+            ->select('created_at')
+            ->select('published_at')
             ->innerJoin(
                 ResourceGateway::instance()->on('id', 'id')
                     ->onBy('enabled', 'Y')

@@ -3,6 +3,7 @@
 namespace PinaCMS\Model;
 
 use PinaMedia\Model\Media;
+use PinaTime\DateTime;
 
 class Article extends Resource
 {
@@ -12,12 +13,16 @@ class Article extends Resource
     /** @var Feed */
     protected $feed;
 
+    /** @var DateTime */
+    protected $publishedAt;
+
     public function __construct(
         string $title,
         string $text,
         string $link,
         Media $media,
         Feed $feed,
+        DateTime $publishedAt,
         string $metaTitle = '',
         string $metaDescription = '',
         string $metaKeywods = ''
@@ -26,11 +31,17 @@ class Article extends Resource
 
         $this->text = $text;
         $this->feed = $feed;
+        $this->publishedAt = $publishedAt;
     }
 
     public function getText()
     {
         return $this->text;
+    }
+
+    public function getPublishedAt(): DateTime
+    {
+        return $this->publishedAt;
     }
 
     public static function fromArray($line): Article
@@ -44,6 +55,7 @@ class Article extends Resource
             '/' . $line['url'],
             $media,
             $feed,
+            DateTime::createFromServerFormat('Y-m-d H:i:s', $line['published_at'] ?? $line['created_at']),
             $line['meta_title'],
             $line['meta_description'],
             $line['meta_keywords']
