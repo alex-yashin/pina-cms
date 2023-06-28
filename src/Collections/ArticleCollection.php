@@ -19,9 +19,4 @@ class ArticleCollection extends ResourceBasedCollection
             ->makeSchema();
     }
 
-    public function getFilterSchema(): Schema
-    {
-        return $this->getListSchema()->forgetField('text')->forgetStatic()->setNullable()->setMandatory(false);
-    }
-
 }

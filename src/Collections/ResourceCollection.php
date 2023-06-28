@@ -25,15 +25,6 @@ class ResourceCollection extends DataCollection
         return new Schema();
     }
 
-    public function getFilterSchema(): Schema
-    {
-        return parent::getSchema()
-            ->fieldset(['parent_id', 'title', 'type_id'])
-            ->setNullable()
-            ->setStatic(false)
-            ->makeSchema();
-    }
-
     public function getListSchema(): Schema
     {
         return parent::getListSchema()->fieldset(['parent_id', 'title', 'slug', 'type_id', 'enabled'])->makeSchema();

@@ -71,12 +71,12 @@ class ResourceTypeType extends DirectoryType
         return $value;
     }
 
-    public function getSize()
+    public function getSize(): int
     {
         return 12;
     }
 
-    public function getSQLType()
+    public function getSQLType(): string
     {
         return "varchar(" . $this->getSize() . ")";
     }
