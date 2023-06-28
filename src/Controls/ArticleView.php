@@ -7,8 +7,6 @@ namespace PinaCMS\Controls;
 use Pina\App;
 use Pina\Controls\Control;
 use Pina\Html;
-use Pina\ResourceManagerInterface;
-use Pina\StaticResource\Script;
 use PinaCMS\Model\Article;
 
 class ArticleView extends Control
@@ -27,7 +25,7 @@ class ArticleView extends Control
      */
     protected function draw()
     {
-        $this->resources()->append((new Script())->setSrc('article.js'));
+        App::assets()->addScript('/article.js');
         return Html::zz(
             'main.container section(header(h1%)+.article%)',
             $this->article->getTitle(),
@@ -38,14 +36,6 @@ class ArticleView extends Control
     protected function drawInner()
     {
         return $this->article->getText();
-    }
-
-    /**
-     * @return ResourceManagerInterface
-     */
-    protected function resources()
-    {
-        return App::container()->get(ResourceManagerInterface::class);
     }
 
 }

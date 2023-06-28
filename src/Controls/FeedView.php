@@ -7,8 +7,6 @@ namespace PinaCMS\Controls;
 use Pina\App;
 use Pina\Controls\Control;
 use Pina\Html;
-use Pina\ResourceManagerInterface;
-use Pina\StaticResource\Script;
 use PinaCMS\Model\Article;
 use PinaCMS\Model\Feed;
 
@@ -33,7 +31,7 @@ class FeedView extends Control
      */
     protected function draw()
     {
-        $this->resources()->append((new Script())->setSrc('article.js'));
+        App::assets()->addScript('/article.js');
         return Html::zz(
             'main.container section(header(h1%)+.article%)',
             $this->feed->getTitle(),
@@ -51,14 +49,6 @@ class FeedView extends Control
             $r .= $itemView;
         }
         return Html::nest('ul.nav feed', $r);
-    }
-
-    /**
-     * @return ResourceManagerInterface
-     */
-    protected function resources()
-    {
-        return App::container()->get(ResourceManagerInterface::class);
     }
 
 }
