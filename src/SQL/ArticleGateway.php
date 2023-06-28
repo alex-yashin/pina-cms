@@ -33,7 +33,7 @@ class ArticleGateway extends TableDataGateway
         $schema = new ResourceSchema();
         $schema->add('feed_id', __("Лента"), FeedType::class)->setNullable();
         $schema->add('text', __("Текст"), HTMLType::class);
-        $schema->add('published_at', __("Опубликовать"), TimestampType::class);
+        $schema->add('published_at', __("Опубликовать"), TimestampType::class)->setNullable();
         $schema->addCreatedAt();
         return $schema;
     }
@@ -41,6 +41,11 @@ class ArticleGateway extends TableDataGateway
     public function getTriggers()
     {
         return [
+            [
+                $this->getTable(),
+                'before insert',
+                "IF (NEW.published_at IS NULL) THEN SET NEW.published_at=NOW(); END IF;"
+            ],
             $this->makeInsertTrigger('article', 'feed_id'),
             $this->makeUpdateTrigger('feed_id'),
         ];
