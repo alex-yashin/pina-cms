@@ -5,6 +5,7 @@ namespace PinaCMS\ResourceTypes;
 
 
 use Exception;
+use Pina\Paging;
 use Pina\Request;
 use PinaCMS\Controls\FeedView;
 use PinaCMS\SQL\ArticleGateway;
@@ -49,15 +50,18 @@ class FeedResource implements ResourceTypeInterface
         Request::setPlace('og_description', $feed->getMetaDescription());
         Request::setPlace('og_image', $feed->getMedia()->getUrl());
 
+        $paging = new Paging($_GET['page'] ?? 1, 12);
+
         $articles = ArticleGateway::instance()
-            ->orderBy('created_at', 'desc')
+            ->wherePublished()
+            ->orderBy('published_at', 'desc')
             ->whereBy('feed_id', $id)
-            ->whereBy('enabled', 'Y')
+            ->paging($paging)
             ->getArticles();
 
         /** @var FeedView $view */
         $view = App::make(FeedView::class);
-        $view->load($feed, $articles);
+        $view->load($feed, $articles, $paging);
 
         return $view;
     }

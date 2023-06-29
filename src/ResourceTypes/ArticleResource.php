@@ -31,7 +31,7 @@ class ArticleResource implements ResourceTypeInterface
      */
     public function draw(int $id): Control
     {
-        $article = ArticleGateway::instance()->findArticleOrFail($id);
+        $article = ArticleGateway::instance()->wherePublished()->findArticleOrFail($id);
 
         /** @var ArticleView $view */
         $view = App::make(ArticleView::class);

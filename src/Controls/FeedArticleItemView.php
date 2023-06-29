@@ -4,6 +4,7 @@
 namespace PinaCMS\Controls;
 
 
+use Exception;
 use Pina\Controls\Control;
 use Pina\Html;
 use PinaCMS\Model\Article;
@@ -18,6 +19,10 @@ class FeedArticleItemView extends Control
         $this->article = $article;
     }
 
+    /**
+     * @return string
+     * @throws Exception
+     */
     protected function draw()
     {
         return Html::tag(
@@ -30,7 +35,10 @@ class FeedArticleItemView extends Control
         );
     }
 
-
+    /**
+     * @return string
+     * @throws Exception
+     */
     protected function drawInner()
     {
         $text = mb_substr(strip_tags($this->article->getText()), 0, 500);

@@ -25,9 +25,9 @@ class Article extends Resource
         DateTime $publishedAt,
         string $metaTitle = '',
         string $metaDescription = '',
-        string $metaKeywods = ''
+        string $metaKeywords = ''
     ) {
-        parent::__construct($title, $link, $media, $metaTitle, $metaDescription, $metaKeywods);
+        parent::__construct($title, $link, $media, $metaTitle, $metaDescription, $metaKeywords);
 
         $this->text = $text;
         $this->feed = $feed;
@@ -51,7 +51,7 @@ class Article extends Resource
         $media = new Media($line['media_storage'] ?? '', $line['media_path'] ?? '');
         return new Article(
             $line['title'],
-            $line['text'],
+            $line['text'] ?? '',
             '/' . $line['url'],
             $media,
             $feed,

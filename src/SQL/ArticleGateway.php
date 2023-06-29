@@ -123,4 +123,11 @@ class ArticleGateway extends TableDataGateway
             );
     }
 
+    public function wherePublished()
+    {
+        return $this
+            ->whereBy('enabled', 'Y')
+            ->where($this->getAlias().'.published_at <= NOW()');
+    }
+
 }

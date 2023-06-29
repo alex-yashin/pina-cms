@@ -22,7 +22,7 @@ class Resource extends LinkedItem
         Media $media,
         string $metaTitle = '',
         string $metaDescription = '',
-        string $metaKeywods = ''
+        string $metaKeywords = ''
     ) {
         parent::__construct($title, $link);
 
@@ -30,7 +30,7 @@ class Resource extends LinkedItem
 
         $this->metaTitle = $metaTitle;
         $this->metaDescription = $metaDescription;
-        $this->metaKeywords = $metaKeywods;
+        $this->metaKeywords = $metaKeywords;
     }
 
     public function getMedia(): Media
