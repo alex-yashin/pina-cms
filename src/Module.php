@@ -23,6 +23,8 @@ class Module implements ModuleInterface
 
     public function __construct()
     {
+        App::modules()->load(\PinaTime\Module::class);
+
         /** @var ResourceTypeFactory $factory */
         $factory = App::load(ResourceTypeFactory::class);
         $factory->register('feed', FeedResource::class);
