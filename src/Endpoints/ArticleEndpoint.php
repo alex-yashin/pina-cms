@@ -9,12 +9,14 @@ use Pina\Data\DataTable;
 use Pina\Http\DelegatedCollectionEndpoint;
 use Pina\Http\Request;
 
+use function Pina\__;
+
 class ArticleEndpoint extends DelegatedCollectionEndpoint
 {
     public function __construct(Request $request)
     {
         parent::__construct($request);
-        $this->composer->configure('Articles', "Create article");
+        $this->composer->configure(__('Статьи'), __("Добавить статью"));
         $this->collection = App::make(ArticleCollection::class);
     }
 
