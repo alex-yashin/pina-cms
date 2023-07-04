@@ -40,8 +40,7 @@ class FeedView extends Control
     {
         App::assets()->addScript('/article.js');
         return Html::zz(
-            'main.container section(header(h1%)+.article(%+ul.nav feed%+%)+%)',
-            $this->feed->getTitle(),
+            'main.container section(%+ul.nav feed%+%+%)',
             $this->drawInnerBefore(),
             $this->drawInner(),
             $this->drawInnerAfter(),

@@ -28,8 +28,7 @@ class ArticleView extends Control
     {
         App::assets()->addScript('/article.js');
         return Html::zz(
-            'main.container section(header(h1%)+.article%)',
-            $this->article->getTitle(),
+            'main.container section%',
             $this->drawInnerBefore() . $this->drawInner() . $this->drawInnerAfter()
         );
     }
