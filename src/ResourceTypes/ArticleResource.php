@@ -3,7 +3,7 @@
 namespace PinaCMS\ResourceTypes;
 
 use Exception;
-use Pina\Request;
+use PinaCMS\Composers\MetaComposer;
 use PinaCMS\Controls\ArticleView;
 use PinaDashboard\Dashboard;
 use PinaCMS\Endpoints\ArticleEndpoint;
@@ -37,17 +37,9 @@ class ArticleResource implements ResourceTypeInterface
         $view = App::make(ArticleView::class);
         $view->load($article);
 
-        Request::setPlace('page_header', $article->getTitle());
-        Request::setPlace('meta_title', $article->getMetaTitle());
-        Request::setPlace('meta_description', $article->getMetaDescription());
-        Request::setPlace('meta_keywords', $article->getMetaKeywords());
-
-        Request::setPlace('canonical', $article->getLink());
-
-        Request::setPlace('og_type', 'article');
-        Request::setPlace('og_title', $article->getMetaTitle());
-        Request::setPlace('og_description', $article->getMetaDescription());
-        Request::setPlace('og_image', $article->getMedia()->getUrl());
+        /** @var MetaComposer $composer */
+        $composer = App::make(MetaComposer::class);
+        $composer->set('article', $article);
 
         return $view;
     }

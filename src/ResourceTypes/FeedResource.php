@@ -6,7 +6,7 @@ namespace PinaCMS\ResourceTypes;
 
 use Exception;
 use Pina\Paging;
-use Pina\Request;
+use PinaCMS\Composers\MetaComposer;
 use PinaCMS\Controls\FeedView;
 use PinaCMS\SQL\ArticleGateway;
 use PinaCMS\SQL\FeedGateway;
@@ -38,17 +38,9 @@ class FeedResource implements ResourceTypeInterface
             ->whereBy('enabled', 'Y')
             ->findFeedOrFail($id);
 
-        Request::setPlace('page_header', $feed->getTitle());
-        Request::setPlace('meta_title', $feed->getMetaTitle());
-        Request::setPlace('meta_description', $feed->getMetaDescription());
-        Request::setPlace('meta_keywords', $feed->getMetaKeywords());
-
-        Request::setPlace('canonical', $feed->getLink());
-
-        Request::setPlace('og_type', 'article');
-        Request::setPlace('og_title', $feed->getMetaTitle());
-        Request::setPlace('og_description', $feed->getMetaDescription());
-        Request::setPlace('og_image', $feed->getMedia()->getUrl());
+        /** @var MetaComposer $composer */
+        $composer = App::make(MetaComposer::class);
+        $composer->set('article', $feed);
 
         $paging = new Paging($_GET['page'] ?? 1, 12);
 
