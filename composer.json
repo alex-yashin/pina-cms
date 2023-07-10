@@ -20,9 +20,6 @@
         "alex-yashin/pina-media": "*",
         "alex-yashin/pina-time": "*"
     },
-    "require-dev": {
-        "phpunit/phpunit": "6.*"
-    },
     "autoload": {
         "psr-4": {
             "PinaCMS\\": "src/"
