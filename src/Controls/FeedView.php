@@ -38,7 +38,6 @@ class FeedView extends Control
      */
     protected function draw()
     {
-        App::assets()->addScript('/article.js');
         return Html::zz(
             'main.container section(%+ul.nav feed%+%+%)',
             $this->drawInnerBefore(),
@@ -52,8 +51,8 @@ class FeedView extends Control
     {
         $r = '';
         foreach ($this->articles as $article) {
-            /** @var FeedArticleItemView $itemView */
-            $itemView = App::make(FeedArticleItemView::class);
+            /** @var FeedArticleView $itemView */
+            $itemView = App::make(FeedArticleView::class);
             $itemView->load($article);
             $r .= $itemView;
         }

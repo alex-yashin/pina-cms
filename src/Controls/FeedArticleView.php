@@ -9,7 +9,7 @@ use Pina\Controls\Control;
 use Pina\Html;
 use PinaCMS\Model\Article;
 
-class FeedArticleItemView extends Control
+class FeedArticleView extends Control
 {
     /** @var Article */
     protected $article;

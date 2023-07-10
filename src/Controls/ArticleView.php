@@ -5,7 +5,6 @@ namespace PinaCMS\Controls;
 
 
 use Exception;
-use Pina\App;
 use Pina\Controls\Control;
 use Pina\Html;
 use PinaCMS\Model\Article;
@@ -26,7 +25,6 @@ class ArticleView extends Control
      */
     protected function draw()
     {
-        App::assets()->addScript('/article.js');
         return Html::zz(
             'main.container section%',
             $this->drawInnerBefore() . $this->drawInner() . $this->drawInnerAfter()
