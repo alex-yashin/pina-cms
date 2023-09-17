@@ -15,7 +15,7 @@ class HTMLType extends TextType
         $input->addClass('init-ckeditor');
         App::assets()->addScript('/vendor/ckeditor/ckeditor.js');
         App::assets()->addScript('/editor.js');
-        App::assets()->addCssContent('<style>.ck-editor__editable_inline { min-height: 400px; }</style>');
+        App::assets()->addStyleContent('<style>.ck-editor__editable_inline { min-height: 400px; }</style>');
         return $input;
     }
 }
