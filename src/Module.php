@@ -56,10 +56,11 @@ class Module implements ModuleInterface
 
         /** @var Dashboard $dashboard */
         $dashboard = App::load(Dashboard::class);
-        $dashboard->register('resources', ResourceManagementEndpoint::class);
-        $dashboard->register('articles', ArticleEndpoint::class);
-        $dashboard->register('feeds', FeedEndpoint::class);
-        $dashboard->register('upload', UploadEndpoint::class);
+        $section = $dashboard->section('CMS');
+        $section->register('resources', ResourceManagementEndpoint::class);
+        $section->register('articles', ArticleEndpoint::class);
+        $section->register('feeds', FeedEndpoint::class);
+        $section->register('upload', UploadEndpoint::class);
 
         DispatcherRegistry::register(new Dispatcher());
 
