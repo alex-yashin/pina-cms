@@ -25,9 +25,10 @@ class ArticleView extends Control
      */
     protected function draw()
     {
-        return Html::zz(
-            'main.container section%',
-            $this->drawInnerBefore() . $this->drawInner() . $this->drawInnerAfter()
+        return Html::nest(
+            'main.container section',
+            $this->drawInnerBefore() . $this->drawInner() . $this->drawInnerAfter(),
+            $this->makeAttributes()
         );
     }
 
