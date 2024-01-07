@@ -13,13 +13,11 @@ class Dispatcher
     public function dispatch($resource)
     {
         $resource = trim(urldecode($resource), '/');
-        if (empty($resource)) {
-            return null;
-        }
-
         $id = ResourceUrlGateway::instance()
             ->whereBy('url', $resource)
             ->value('id');
+
+        $_SERVER['PINA_CMS_RESOURCE_ID'] = $id;
 
         if (!empty($id)) {
             return 'rs/'.$id;
