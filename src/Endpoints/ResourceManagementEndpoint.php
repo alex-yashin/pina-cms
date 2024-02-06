@@ -4,6 +4,7 @@
 namespace PinaCMS\Endpoints;
 
 
+use Pina\Data\DataRecord;
 use PinaCMS\Collections\ResourceCollection;
 use Pina\App;
 use Pina\Http\DelegatedCollectionEndpoint;
@@ -22,9 +23,9 @@ class ResourceManagementEndpoint extends DelegatedCollectionEndpoint
         $this->collection = App::make(ResourceCollection::class);
     }
 
-    protected function makeViewButtonRow()
+    protected function makeViewButtonRow(DataRecord $record)
     {
-        $row = parent::makeViewButtonRow();
+        $row = parent::makeViewButtonRow($record);
 
         $resource = $this->location->resource('@');
         list($controller, $action, $data) = Url::route($resource, 'get');
@@ -35,7 +36,7 @@ class ResourceManagementEndpoint extends DelegatedCollectionEndpoint
 //            ->whereId($id)
 //            ->value('type_id');
 
-        $row->append($this->makeResourceButton('View data', ''));
+        $row->append($this->makeLinkedButton('View data', $this->location->link('')));
 
         return $row;
     }
