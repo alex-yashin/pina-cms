@@ -39,7 +39,7 @@ class ArticleResource implements ResourceTypeInterface
 
         /** @var MetaComposer $composer */
         $composer = App::make(MetaComposer::class);
-        $composer->set('article', $article);
+        $composer->set('article', $article, $id);
 
         return $view;
     }

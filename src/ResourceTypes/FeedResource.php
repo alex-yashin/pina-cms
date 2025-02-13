@@ -40,7 +40,7 @@ class FeedResource implements ResourceTypeInterface
 
         /** @var MetaComposer $composer */
         $composer = App::make(MetaComposer::class);
-        $composer->set('article', $feed);
+        $composer->set('article', $feed, $id);
 
         $paging = new Paging($_GET['page'] ?? 1, 12);
 
