@@ -22,7 +22,9 @@ class FeedGateway extends TableDataGateway
      */
     public function getSchema()
     {
-        return new ResourceSchema();
+        $schema = parent::getSchema();
+        $schema->merge(new ResourceSchema());
+        return $schema;
     }
 
     public function getTriggers()

@@ -21,7 +21,7 @@ class ResourceTreeGateway extends TableDataGateway
      */
     public function getSchema()
     {
-        $schema = new Schema();
+        $schema = parent::getSchema();
         $schema->add('id', 'ID', IntegerType::class);
         $schema->add('parent_id', __('Родительский ресурс'), IntegerType::class);
         $schema->setPrimaryKey(['id', 'parent_id']);

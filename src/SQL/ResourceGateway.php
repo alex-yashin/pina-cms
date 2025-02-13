@@ -33,7 +33,7 @@ class ResourceGateway extends TableDataGateway
     public function getSchema()
     {
         $schema = new Schema();
-        $schema->addAutoincrementPrimaryKey('id', 'ID');
+        $schema->addAutoincrementPrimaryKey();
         //будет генерироваться на стороне
         $schema->add('parent_id', __('Родительский ресурс'), ResourceType::class)->setNullable()->setStatic();
         $schema->addKey('parent_id');

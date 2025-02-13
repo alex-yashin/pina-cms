@@ -38,12 +38,10 @@ class FeedView extends Control
      */
     protected function draw()
     {
-        return Html::zz(
-            'main.container section(%+ul.nav feed%+%+%)',
-            $this->drawInnerBefore(),
-            $this->drawInner(),
-            $this->drawInnerAfter(),
-            $this->drawPaging()
+        return Html::nest(
+            'main.container section',
+            $this->drawInnerBefore() . $this->drawInner() .  $this->drawInnerAfter() . $this->drawPaging(),
+            $this->makeAttributes()
         );
     }
 
@@ -56,7 +54,7 @@ class FeedView extends Control
             $itemView->load($article);
             $r .= $itemView;
         }
-        return $r;
+        return Html::nest('ul.nav feed', $r);
     }
 
     protected function drawPaging()

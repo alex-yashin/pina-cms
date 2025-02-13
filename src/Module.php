@@ -11,12 +11,12 @@ use PinaCMS\ResourceTypes\ArticleResource;
 use PinaCMS\ResourceTypes\FeedResource;
 use PinaDashboard\Dashboard;
 use PinaMedia\Endpoints\UploadEndpoint;
-use Pina\Access;
 use Pina\App;
 use Pina\DispatcherRegistry;
 use Pina\ModuleInterface;
 use PinaCMS\Endpoints\ResourceEndpoint;
 use PinaMedia\Media;
+use Pina\Menu\MainMenu;
 
 class Module implements ModuleInterface
 {
@@ -48,17 +48,17 @@ class Module implements ModuleInterface
 
     public function http()
     {
-        App::router()->register('rs', ResourceEndpoint::class);
-        Access::permit('rs', 'public');
+        App::router()->register('rs', ResourceEndpoint::class)->permit('public');
+        App::router()->register('sitemap', SitemapEndpoint::class)->permit('public');
 
-        App::router()->register('sitemap', SitemapEndpoint::class);
-        Access::permit('sitemap', 'public');
+        /** @var MainMenu $mainMenu */
+        $mainMenu = App::load(MainMenu::class);
 
         /** @var Dashboard $dashboard */
         $dashboard = App::load(Dashboard::class);
-        $section = $dashboard->section('CMS');
+        $section = $dashboard->section('CMS')->permit('root');
         $section->register('resources', ResourceManagementEndpoint::class);
-        $section->register('articles', ArticleEndpoint::class);
+        $section->register('articles', ArticleEndpoint::class)->addToMenu($mainMenu);
         $section->register('feeds', FeedEndpoint::class);
         $section->register('upload', UploadEndpoint::class);
 

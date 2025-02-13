@@ -30,7 +30,8 @@ class ArticleGateway extends TableDataGateway
      */
     public function getSchema()
     {
-        $schema = new ResourceSchema();
+        $schema = parent::getSchema();
+        $schema->merge(new ResourceSchema());
         $schema->add('feed_id', __("Лента"), FeedType::class)->setNullable();
         $schema->add('text', __("Текст"), HTMLType::class);
         $schema->add('published_at', __("Опубликовать"), TimestampType::class)->setNullable();

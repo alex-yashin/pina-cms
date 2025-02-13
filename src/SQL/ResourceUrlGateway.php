@@ -22,7 +22,7 @@ class ResourceUrlGateway extends TableDataGateway
      */
     public function getSchema()
     {
-        $schema = new Schema();
+        $schema = parent::getSchema();
         $schema->add('id', 'ID',IntegerType::class);
         $schema->setPrimaryKey(['id']);
 

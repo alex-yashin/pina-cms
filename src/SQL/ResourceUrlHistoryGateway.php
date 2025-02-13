@@ -21,7 +21,7 @@ class ResourceUrlHistoryGateway extends TableDataGateway
      */
     public function getSchema()
     {
-        $schema = new Schema();
+        $schema = parent::getSchema();
         $schema->add('id', 'ID',IntegerType::class);
         $schema->add('url', __('Адрес'), LongStringType::class);
         $schema->setPrimaryKey(['url']);
