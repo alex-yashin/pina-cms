@@ -36,6 +36,7 @@ class MetaComposer
 
         /** @var Meta $meta */
         $meta = App::load(Meta::class);
+        $meta->set('title', $resource->getMetaTitle());
         $meta->set('description', $resource->getMetaDescription());
         $meta->set('keywords', $resource->getMetaKeywords());
         $meta->set('og:type', $ogType);
