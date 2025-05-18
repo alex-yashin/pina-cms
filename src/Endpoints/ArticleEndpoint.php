@@ -22,9 +22,6 @@ class ArticleEndpoint extends DelegatedCollectionEndpoint
 
     protected function makeCollectionView(DataTable $data)
     {
-        if ($this->sortable) {
-            return parent::makeCollectionView($data);
-        }
         return App::make(FeedTableView::class)->load($data)->setLocation($this->location, $this->context()->all());
     }
 
