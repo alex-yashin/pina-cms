@@ -17,7 +17,7 @@ class ResourceSchema extends Schema
 
     public function __construct()
     {
-        $this->add('id', 'ID', IntegerType::class)->setStatic()->setWidth(4);
+        $this->add('id', 'ID', IntegerType::class)->setStatic()->setHidden();
         $this->setPrimaryKey(['id']);
         $this->add('slug', __("Slug"), SlugType::class)->setWidth(4);
         $this->add('enabled', __('Активен'), EnabledType::class)->setWidth(4);

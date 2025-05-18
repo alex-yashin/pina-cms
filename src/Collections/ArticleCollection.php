@@ -15,7 +15,7 @@ class ArticleCollection extends ResourceBasedCollection
     public function getListSchema(): Schema
     {
         return parent::getListSchema()
-            ->fieldset(['title', 'text', 'feed_id', 'created_at', 'enabled'])
+            ->fieldset(['id', 'title', 'text', 'feed_id', 'created_at', 'enabled'])
             ->makeSchema();
     }
 
