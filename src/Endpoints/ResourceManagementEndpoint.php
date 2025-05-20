@@ -4,6 +4,7 @@
 namespace PinaCMS\Endpoints;
 
 
+use Pina\Controls\ButtonRow;
 use Pina\Data\DataRecord;
 use PinaCMS\Collections\ResourceCollection;
 use Pina\App;
@@ -23,7 +24,7 @@ class ResourceManagementEndpoint extends DelegatedCollectionEndpoint
         $this->collection = App::make(ResourceCollection::class);
     }
 
-    protected function makeViewButtonRow(DataRecord $record)
+    protected function makeViewButtonRow(DataRecord $record): ButtonRow
     {
         $row = parent::makeViewButtonRow($record);
 
