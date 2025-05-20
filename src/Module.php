@@ -7,6 +7,7 @@ use PinaCMS\Endpoints\ArticleEndpoint;
 use PinaCMS\Endpoints\FeedEndpoint;
 use PinaCMS\Endpoints\ResourceManagementEndpoint;
 use PinaCMS\Endpoints\SitemapEndpoint;
+use PinaCMS\Menu\ArticleMenu;
 use PinaCMS\ResourceTypes\ArticleResource;
 use PinaCMS\ResourceTypes\FeedResource;
 use PinaDashboard\Dashboard;
@@ -53,14 +54,14 @@ class Module implements ModuleInterface
 
         /** @var MainMenu $mainMenu */
         $mainMenu = App::load(MainMenu::class);
+        $articleMenu = App::load(ArticleMenu::class);
 
         /** @var Dashboard $dashboard */
-        $dashboard = App::load(Dashboard::class);
-        $section = $dashboard->section('CMS')->permit('root');
-        $section->register('resources', ResourceManagementEndpoint::class);
-        $section->register('articles', ArticleEndpoint::class)->addToMenu($mainMenu);
-        $section->register('feeds', FeedEndpoint::class);
-        $section->register('upload', UploadEndpoint::class);
+        App::router()->register('articles', ArticleEndpoint::class)->permit('root')->addToMenu($mainMenu)->addToMenu($articleMenu);
+        App::router()->register('feeds', FeedEndpoint::class)->permit('root')->addToMenu($articleMenu);
+        App::router()->register('resources', ResourceManagementEndpoint::class)->permit('root')->addToMenu($articleMenu);
+
+        App::router()->register('upload', UploadEndpoint::class);
 
         DispatcherRegistry::register(new Dispatcher());
 
