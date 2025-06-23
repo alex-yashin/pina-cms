@@ -2,21 +2,24 @@
 
 namespace PinaCMS\Endpoints;
 
+use Pina\Data\DataCollection;
 use PinaCMS\Collections\FeedCollection;
 use Pina\App;
 use Pina\Http\DelegatedCollectionEndpoint;
-use Pina\Http\Request;
 
 use function Pina\__;
 
 class FeedEndpoint extends DelegatedCollectionEndpoint
 {
-    public function __construct(Request $request)
+
+    protected function getCollectionTitle(): string
     {
-        parent::__construct($request);
-        $this->composer->configure(__('Ленты'), __('Добавить ленту'));
-        $this->collection = App::make(FeedCollection::class);
+        return __('Ленты');
     }
 
+    protected function makeDataCollection(): DataCollection
+    {
+        return App::make(FeedCollection::class);
+    }
 
 }
