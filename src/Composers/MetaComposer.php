@@ -7,7 +7,6 @@ use Pina\Controls\BreadcrumbView;
 use Pina\Controls\Meta;
 use Pina\Data\DataTable;
 use Pina\Data\Schema;
-use Pina\Request;
 use PinaCMS\Model\Resource;
 use PinaCMS\SQL\ResourceGateway;
 use PinaCMS\SQL\ResourceTreeGateway;
@@ -23,12 +22,12 @@ class MetaComposer
      */
     public function set(string $ogType, Resource $resource, $id = null): Meta
     {
-        Request::setPlace('page_header', $resource->getTitle());
-        Request::setPlace('meta_title', $resource->getMetaTitle());
-        Request::setPlace('meta_description', $resource->getMetaDescription());
-        Request::setPlace('meta_keywords', $resource->getMetaKeywords());
+        App::place('page_header')->set($resource->getTitle());
+        App::place('meta_title')->set($resource->getMetaTitle());
+        App::place('meta_description')->set($resource->getMetaDescription());
+        App::place('meta_keywords')->set($resource->getMetaKeywords());
 
-        Request::setPlace('canonical', $resource->getLink());
+        App::place('canonical')->set($resource->getLink());
 
         if ($id) {
             $this->fillBreadcrumbs($id, $resource->getTitle());
@@ -78,7 +77,7 @@ class MetaComposer
         $view = App::make(BreadcrumbView::class);
         $view->load(new DataTable($links, new Schema()));
 
-        Request::setPlace('breadcrumb', $view);
+        App::place('breadcrumb')->set($view);
 
     }
 

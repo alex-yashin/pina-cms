@@ -21,14 +21,18 @@ class ArticleGateway extends TableDataGateway
 
     use ResourceTrait;
 
-    protected static $table = 'article';
+    public function getTable(): string
+    {
+        return 'article';
+    }
+
     protected static $charset = "utf8mb4";
 
     /**
      * @return Schema
      * @throws Exception
      */
-    public function getSchema()
+    public function getSchema(): \Pina\Data\Schema
     {
         $schema = parent::getSchema();
         $schema->merge(new ResourceSchema());

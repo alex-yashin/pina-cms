@@ -3,6 +3,7 @@
 
 namespace PinaCMS;
 
+use Pina\Router;
 use PinaCMS\Endpoints\ArticleEndpoint;
 use PinaCMS\Endpoints\FeedEndpoint;
 use PinaCMS\Endpoints\ResourceManagementEndpoint;
@@ -13,7 +14,6 @@ use PinaCMS\ResourceTypes\FeedResource;
 use PinaDashboard\Dashboard;
 use PinaMedia\Endpoints\UploadEndpoint;
 use Pina\App;
-use Pina\DispatcherRegistry;
 use Pina\ModuleInterface;
 use PinaCMS\Endpoints\ResourceEndpoint;
 use PinaMedia\Media;
@@ -30,6 +30,26 @@ class Module implements ModuleInterface
         $factory = App::load(ResourceTypeFactory::class);
         $factory->register('feed', FeedResource::class);
         $factory->register('article', ArticleResource::class);
+        
+        App::onLoad(Router::class, function(Router $router) {
+            $router->register('rs', ResourceEndpoint::class)->permit('public');
+            $router->register('sitemap', SitemapEndpoint::class)->permit('public');
+
+            /** @var MainMenu $mainMenu */
+            $mainMenu = App::load(MainMenu::class);
+            $articleMenu = App::load(ArticleMenu::class);
+
+            /** @var Dashboard $dashboard */
+            $router->register('articles', ArticleEndpoint::class)->permit('root')->addToMenu($mainMenu)->addToMenu($articleMenu);
+            $router->register('feeds', FeedEndpoint::class)->permit('root')->addToMenu($articleMenu);
+            $router->register('resources', ResourceManagementEndpoint::class)->permit('root')->addToMenu($articleMenu);
+
+            $router->register('upload', UploadEndpoint::class);
+
+            $router->registerDispatcher(new Dispatcher());
+
+            Media::allowMimeType('application/zip');
+        });
     }
 
     public function getPath()
@@ -45,29 +65,6 @@ class Module implements ModuleInterface
     public function getTitle()
     {
         return 'CMS';
-    }
-
-    public function http()
-    {
-        App::router()->register('rs', ResourceEndpoint::class)->permit('public');
-        App::router()->register('sitemap', SitemapEndpoint::class)->permit('public');
-
-        /** @var MainMenu $mainMenu */
-        $mainMenu = App::load(MainMenu::class);
-        $articleMenu = App::load(ArticleMenu::class);
-
-        /** @var Dashboard $dashboard */
-        App::router()->register('articles', ArticleEndpoint::class)->permit('root')->addToMenu($mainMenu)->addToMenu($articleMenu);
-        App::router()->register('feeds', FeedEndpoint::class)->permit('root')->addToMenu($articleMenu);
-        App::router()->register('resources', ResourceManagementEndpoint::class)->permit('root')->addToMenu($articleMenu);
-
-        App::router()->register('upload', UploadEndpoint::class);
-
-        DispatcherRegistry::register(new Dispatcher());
-
-        Media::allowMimeType('application/zip');
-
-        return [];
     }
 
 }

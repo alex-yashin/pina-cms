@@ -13,13 +13,17 @@ use function Pina\__;
 
 class ResourceTreeGateway extends TableDataGateway
 {
-    protected static $table = 'resource_tree';
+    public function getTable(): string
+    {
+        return 'resource_tree';
+    }
+
 
     /**
      * @return Schema
      * @throws Exception
      */
-    public function getSchema()
+    public function getSchema(): \Pina\Data\Schema
     {
         $schema = parent::getSchema();
         $schema->add('id', 'ID', IntegerType::class);

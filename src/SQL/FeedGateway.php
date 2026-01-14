@@ -14,13 +14,17 @@ class FeedGateway extends TableDataGateway
 {
     use ResourceTrait;
 
-    protected static $table = 'feed';
+    public function getTable(): string
+    {
+        return 'feed';
+    }
+
 
     /**
      * @return Schema
      * @throws Exception
      */
-    public function getSchema()
+    public function getSchema(): \Pina\Data\Schema
     {
         $schema = parent::getSchema();
         $schema->merge(new ResourceSchema());

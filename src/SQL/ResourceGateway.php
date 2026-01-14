@@ -24,13 +24,16 @@ use function Pina\__;
 class ResourceGateway extends TableDataGateway
 {
 
-    protected static $table = 'resource';
+    public function getTable(): string
+    {
+        return 'resource';
+    }
 
     /**
      * @return Schema
      * @throws Exception
      */
-    public function getSchema()
+    public function getSchema(): \Pina\Data\Schema
     {
         $schema = new Schema();
         $schema->addAutoincrementPrimaryKey();

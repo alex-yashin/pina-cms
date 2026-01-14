@@ -13,13 +13,17 @@ use function Pina\__;
 
 class ResourceUrlHistoryGateway extends TableDataGateway
 {
-    protected static $table = 'resource_url_history';
+    public function getTable(): string
+    {
+        return 'resource_url_history';
+    }
+
 
     /**
      * @return Schema
      * @throws Exception
      */
-    public function getSchema()
+    public function getSchema(): \Pina\Data\Schema
     {
         $schema = parent::getSchema();
         $schema->add('id', 'ID',IntegerType::class);

@@ -4,13 +4,14 @@
 namespace PinaCMS;
 
 
+use Pina\Router\DispatcherInterface;
 use PinaCMS\SQL\ResourceUrlGateway;
 use PinaCMS\SQL\ResourceUrlHistoryGateway;
 
-class Dispatcher
+class Dispatcher implements DispatcherInterface
 {
 
-    public function dispatch($resource)
+    public function dispatch(string $resource): ?string
     {
         $resource = trim(urldecode($resource), '/');
         $id = ResourceUrlGateway::instance()
