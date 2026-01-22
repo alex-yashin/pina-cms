@@ -25,9 +25,9 @@ class ResourceCollection extends DataCollection
         return new Schema();
     }
 
-    public function getListSchema(): Schema
+    public function getListSchema($context = []): Schema
     {
-        return parent::getListSchema()->fieldset(['parent_id', 'title', 'slug', 'type_id', 'enabled'])->makeSchema();
+        return parent::getListSchema($context)->fieldset(['parent_id', 'title', 'slug', 'type_id', 'enabled'])->makeSchema();
     }
 
     protected function normalize(array $data, Schema $schema, $context = [], ?string $id = null): array

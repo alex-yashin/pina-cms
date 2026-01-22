@@ -12,7 +12,7 @@ class FeedCollection extends ResourceBasedCollection
         return FeedGateway::instance();
     }
 
-    public function getListSchema(): Schema
+    public function getListSchema($context = []): Schema
     {
         return parent::getListSchema()
             ->fieldset(['id', 'title'])

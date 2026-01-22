@@ -12,7 +12,7 @@ class ArticleCollection extends ResourceBasedCollection
         return ArticleGateway::instance()->orderBy('created_at', 'desc');
     }
 
-    public function getListSchema(): Schema
+    public function getListSchema($context = []): Schema
     {
         return parent::getListSchema()
             ->fieldset(['id', 'title', 'text', 'feed_id', 'created_at', 'enabled'])
