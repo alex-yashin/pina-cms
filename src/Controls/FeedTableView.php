@@ -15,7 +15,7 @@ class FeedTableView extends TableView
     /** @var Location */
     protected $context = [];
 
-    protected function drawInner()
+    protected function drawContent(): string
     {
         $container = new Wrapper('ul.nav feed');
 
