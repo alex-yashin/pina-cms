@@ -3,8 +3,8 @@
 namespace PinaCMS\Composers;
 
 use Pina\App;
-use Pina\Controls\BreadcrumbView;
-use Pina\Controls\Meta;
+use Pina\Controls\Record\BreadcrumbView;
+use Pina\Controls\Place\Meta;
 use Pina\Data\DataTable;
 use Pina\Data\Schema;
 use PinaCMS\Model\Resource;

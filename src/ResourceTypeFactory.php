@@ -41,7 +41,7 @@ class ResourceTypeFactory
             throw new NotFoundException("Resource type $type not found");
         }
 
-        return $this->container->make($type);
+        return $this->container->get($type);
     }
 
     /**

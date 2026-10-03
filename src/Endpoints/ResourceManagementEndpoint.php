@@ -4,7 +4,7 @@
 namespace PinaCMS\Endpoints;
 
 
-use Pina\Controls\ButtonRow;
+use Pina\Controls\Components\ButtonRow;
 use Pina\Data\DataCollection;
 use Pina\Data\DataRecord;
 use PinaCMS\Collections\ResourceCollection;

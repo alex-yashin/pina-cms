@@ -5,8 +5,8 @@ namespace PinaCMS\Controls;
 
 use Exception;
 use PinaMedia\Media;
-use Pina\Controls\LinkedListItem;
-use Pina\Controls\RecordTrait;
+use Pina\Controls\Components\LinkedListItem;
+use Pina\Controls\Record\RecordTrait;
 use Pina\Html;
 
 class FeedRecordRow extends LinkedListItem
@@ -24,7 +24,7 @@ class FeedRecordRow extends LinkedListItem
      * @return string
      * @throws Exception
      */
-    protected function drawInner()
+    protected function drawContent(): string
     {
         $data = $this->record->getTextData();
 

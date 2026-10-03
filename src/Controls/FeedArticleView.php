@@ -23,12 +23,12 @@ class FeedArticleView extends Control
      * @return string
      * @throws Exception
      */
-    protected function draw()
+    protected function draw(): string
     {
         return Html::tag(
             'li',
             Html::a(
-                $this->drawInnerBefore() . $this->drawInner() . $this->drawInnerAfter(),
+                $this->drawContent(),
                 $this->article->getLink()
             ),
             $this->makeAttributes()
@@ -39,7 +39,7 @@ class FeedArticleView extends Control
      * @return string
      * @throws Exception
      */
-    protected function drawInner()
+    protected function drawContent()
     {
         $text = mb_substr(strip_tags($this->article->getText()), 0, 500);
 

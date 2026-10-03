@@ -7,7 +7,7 @@ namespace PinaCMS\Controls;
 use Exception;
 use Pina\App;
 use Pina\Controls\Control;
-use Pina\Controls\PagingControl;
+use Pina\Controls\Components\PagingControl;
 use Pina\Html;
 use Pina\Paging;
 use PinaCMS\Model\Article;
@@ -36,16 +36,16 @@ class FeedView extends Control
      * @return string
      * @throws Exception
      */
-    protected function draw()
+    protected function draw(): string
     {
         return Html::nest(
             'main.container section',
-            $this->drawInnerBefore() . $this->drawInner() .  $this->drawInnerAfter() . $this->drawPaging(),
+            $this->drawContent() . $this->drawPaging(),
             $this->makeAttributes()
         );
     }
 
-    protected function drawInner()
+    protected function drawContent()
     {
         $r = '';
         foreach ($this->articles as $article) {

@@ -5,7 +5,7 @@ namespace PinaCMS\Controls;
 
 
 use Pina\App;
-use Pina\Controls\TableView;
+use Pina\Controls\Record\TableView;
 use Pina\Controls\Wrapper;
 use Pina\Data\DataRecord;
 use Pina\Http\Location;

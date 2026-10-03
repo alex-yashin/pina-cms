@@ -23,16 +23,16 @@ class ArticleView extends Control
      * @return string
      * @throws Exception
      */
-    protected function draw()
+    protected function draw(): string
     {
         return Html::nest(
             'main.container section',
-            $this->drawInnerBefore() . $this->drawInner() . $this->drawInnerAfter(),
+            $this->drawContent(),
             $this->makeAttributes()
         );
     }
 
-    protected function drawInner()
+    protected function drawContent()
     {
         return $this->article->getText();
     }
