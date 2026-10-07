@@ -19,6 +19,11 @@ class FeedGateway extends TableDataGateway
         return 'feed';
     }
 
+    protected function getCharset(): string
+    {
+        return "utf8mb4";
+    }
+
 
     /**
      * @return Schema

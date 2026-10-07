@@ -26,7 +26,10 @@ class ArticleGateway extends TableDataGateway
         return 'article';
     }
 
-    protected static $charset = "utf8mb4";
+    protected function getCharset(): string
+    {
+        return "utf8mb4";
+    }
 
     /**
      * @return Schema
